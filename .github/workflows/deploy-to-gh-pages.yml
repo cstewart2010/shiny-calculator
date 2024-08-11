@@ -23,5 +23,6 @@ jobs:
     - name: 'Resolve Project Dependencies Using Npm'
       shell: pwsh # For Linux, use bash
       run: |
+        npm install
         npm run predeploy
         npm run deploy
