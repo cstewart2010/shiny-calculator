@@ -20,7 +20,7 @@ function App() {
   }
   return (
     <div className="container">
-      <h2>Pokemon Shiny Calculator updated</h2>
+      <h2>Pokemon Shiny Calculator</h2>
       <GenPicker generation={generation} onChange={e => update(e.target.value)} />
       <Counter generation={generation} />
     </div>
