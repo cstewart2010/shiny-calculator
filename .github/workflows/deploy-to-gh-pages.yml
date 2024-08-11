@@ -24,7 +24,9 @@ jobs:
       shell: pwsh
       run: |
         npm install
+        git remote set-url origin https://git:${secrets.DEPLOY_TOKEN}@github.com/shiny-calculator.git
+        npm run deploy
 
     - name: 'Deploy to Github Pages'
       shell: pwsh
-        npm run deploy
+      run: npm run deploy
