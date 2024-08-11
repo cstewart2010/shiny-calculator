@@ -1,32 +1,49 @@
-name: Deploy to GH Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
-env:
-  NODE_VERSION: '20.x'                      # set this to the node version to use (e.g. '8.x', '10.x', '12.x')
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    runs-on: windows-latest
-    environment: dev
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    env:
+        MY_NAME: cstewart2010
     steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v4
-
-    - name: Setup Node ${{ env.NODE_VERSION }} Environment
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-
-    - name: 'Resolve Project Dependencies Using Npm'
-      shell: pwsh
-      run: |
-        npm install
-        git remote set-url origin https://git:${secrets.DEPLOY_TOKEN}@github.com/shiny-calculator.git
-        npm run deploy
-
-    - name: 'Deploy to Github Pages'
-      shell: pwsh
-      run: npm run deploy
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.2
+      - name: Install Dependencies
+        run: npm install
+      - name: Build App
+        run: npm run build
+      - name: Setup Git Email
+        run: git config --global user.email $secrets.USER_EMAIL
+      - name: Setup Git Username
+        run: git config --global user.name $MY_NAME
+      - name: Setup Git Remote
+        run: git remote set-url origin https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/$MY_NAME/shiny-calculator.git
+      - name: Deploy app
+        run: npm run deploy
