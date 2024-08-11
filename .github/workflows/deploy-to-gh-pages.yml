@@ -1,0 +1,27 @@
+name: Deploy to GH Pages
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  NODE_VERSION: '20.x'                      # set this to the node version to use (e.g. '8.x', '10.x', '12.x')
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest # For Linux, use ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: Setup Node ${{ env.NODE_VERSION }} Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: 'Resolve Project Dependencies Using Npm'
+      shell: pwsh # For Linux, use bash
+      run: |
+        npm run predeploy
+        npm run deploy
