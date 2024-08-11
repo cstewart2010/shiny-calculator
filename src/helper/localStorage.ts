@@ -1,27 +1,35 @@
-export function getGeneration(): number | null{
-    const value = localStorage.getItem("generation");
-    if (!value){
-        return null;
-    }
-    const generation = JSON.parse(value!);
-    const type = typeof generation
-    if (type === 'number'){
-        return generation;
-    }
-
-    return null;
+export function getGenerationLocal(): number | null {
+    return getLocal("generation");
 }
 
-export function setGeneration(gen: number) {
+export function setGenerationLocal(gen: number) {
     switch (gen){
         case 9:
-            localStorage.setItem("generation", JSON.stringify(gen));
+            setLocal("generation", gen);
             break;
         default:
             throw new Error(`Invalid generation: ${gen}`);
     }
 }
 
-export function removeGeneration(){
+export function getLocal(itemName: string): number | null {
+    const value = localStorage.getItem(itemName);
+    if (!value){
+        return null;
+    }
+    const item = JSON.parse(value!);
+    const type = typeof item
+    if (type === 'number'){
+        return item;
+    }
+
+    return null;
+}
+
+export function setLocal(itemName:string, value: number){
+    localStorage.setItem(itemName, JSON.stringify(value));
+}
+
+export function removeGenerationLocal(){
     localStorage.removeItem("generation");
 }
