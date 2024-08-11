@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/shiny-calculator/static/js/main.151221ce.js",
+    "static/js/453.674be0f5.chunk.js": "/shiny-calculator/static/js/453.674be0f5.chunk.js",
+    "index.html": "/shiny-calculator/index.html",
+    "main.151221ce.js.map": "/shiny-calculator/static/js/main.151221ce.js.map",
+    "453.674be0f5.chunk.js.map": "/shiny-calculator/static/js/453.674be0f5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.151221ce.js"
+  ]
+}
